@@ -188,7 +188,8 @@
     .service-card.active,
     .model-card.active,
     .delivery-card.active,
-    .success-card.active {
+    .success-card.active,
+    .team-card.active {
         transform: scale(1.15);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         border-color: var(--primary);
@@ -306,10 +307,13 @@
         box-sizing: border-box;
     }
     
-    /* Keep team grid with its original styling */
+    /* Enhanced team grid styling */
     .team-grid {
-        padding: 0 10px;
+        padding: 0 1rem;
         box-sizing: border-box;
+        margin: 0 auto 1rem;
+        width: calc(100% - 2rem);
+        max-width: 100%;
     }
     
     /* Container padding to prevent content from being cut off */
@@ -331,7 +335,6 @@
 /* Responsive team cards for different screen sizes */
 @media (max-width: 1200px) {
     .team-grid {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 1.5rem;
     }
     
@@ -361,7 +364,6 @@
 
 @media (max-width: 992px) {
     .team-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1.2rem;
     }
     
@@ -392,16 +394,21 @@
 
 @media (max-width: 768px) {
     .team-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 1rem;
+        padding: 0 1rem;
+        flex-wrap: wrap;
+        justify-content: flex-start;
     }
     
     .team-card {
         width: 180px;
         height: 180px;
         padding: 1rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
+        flex: 0 0 auto;
     }
+    
+    /* Second row container removed as all cards are now in one container */
     
     .team-image {
         width: 100px;
@@ -438,16 +445,33 @@
 
 @media (max-width: 576px) {
     .team-grid {
-        grid-template-columns: repeat(2, 1fr);
+        flex-wrap: wrap;
+        justify-content: space-between;
         gap: 0.8rem;
+        overflow-x: visible;
     }
     
-    .team-card {
-        width: 100%;
+    .team-grid > .team-card {
+        width: calc(50% - 0.4rem);
         height: auto;
         aspect-ratio: 1/1;
         padding: 0.8rem;
         margin-bottom: 1rem;
+        margin-right: 0;
+        flex: 0 0 calc(50% - 0.4rem);
+    }
+    
+    .second-row-container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        overflow-x: visible;
+        width: 100%;
+    }
+    
+    .second-row-container > .team-card {
+        width: calc(50% - 0.4rem);
+        flex: 0 0 calc(50% - 0.4rem);
+        margin-right: 0;
     }
     
     .team-image {
@@ -485,27 +509,30 @@
 
 @media (max-width: 400px) {
     .team-grid {
-        grid-template-columns: 1fr;
-        max-width: 280px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 100%;
         margin: 0 auto;
     }
     
-    .team-card {
-        width: 100%;
+    .team-grid > .team-card,
+    .second-row-container > .team-card {
+        width: calc(50% - 0.4rem);
         height: auto;
         aspect-ratio: 1/1;
-        max-width: 280px;
-        margin: 0 auto 1rem;
+        max-width: calc(50% - 0.4rem);
+        margin: 0 0 1rem 0;
+        flex: 0 0 calc(50% - 0.4rem);
     }
     
     .team-image {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
     }
     
     .team-glow {
-        width: 130px;
-        height: 130px;
+        width: 90px;
+        height: 90px;
     }
 }
 
@@ -1134,7 +1161,9 @@ p, h1, h2, h3, h4, h5, h6, div, span, a {
 .simple-carousel {
     display: flex;
     transition: transform 0.5s ease;
-    padding-left: 15px; /* Add padding to shift first card slightly */
+    padding-left: 0; /* Remove padding to allow for proper centering */
+    width: 100%;
+    position: relative;
 }
 
 .simple-slide {
@@ -1530,18 +1559,19 @@ p, h1, h2, h3, h4, h5, h6, div, span, a {
 @media (max-width: 768px) and (min-width: 481px) {
     .simple-carousel-container {
         margin: 2rem auto;
-        padding: 0 15px;
+        padding: 0;
     }
     
     .simple-carousel {
-        padding-left: 10%;
+        padding-left: 0;
     }
     
     .simple-slide {
-        flex: 0 0 65%; /* Increased from 50% for better visibility */
+        flex: 0 0 65%; /* 65% width for tablets */
         min-width: 65%;
-        height: 250px; /* Increased from 220px to prevent vertical shrinking */
-        margin: 0 5px;
+        height: 250px;
+        margin: 0 auto;
+        box-sizing: border-box;
     }
     
     .slide-overlay {
@@ -1573,18 +1603,34 @@ p, h1, h2, h3, h4, h5, h6, div, span, a {
 
 @media (max-width: 480px) {
     .simple-carousel-container {
-        padding: 0 10px;
+        padding: 0;
+        margin: 1.5rem auto;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .simple-carousel-wrapper {
+        width: 100%;
+        overflow: hidden;
     }
     
     .simple-carousel {
-        padding-left: 15%;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+        display: flex;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
     }
     
     .simple-slide {
-        flex: 0 0 80%;
-        min-width: 80%;
-        height: 220px; /* Increased from 190px to prevent vertical shrinking */
-        margin: 0 5px;
+        flex: 0 0 90%;
+        min-width: 90%;
+        height: 220px;
+        margin: 0 auto;
+        scroll-snap-align: center;
+        box-sizing: border-box;
     }
     
     .slide-overlay {
@@ -1620,6 +1666,45 @@ p, h1, h2, h3, h4, h5, h6, div, span, a {
     .simple-next {
         right: 0;
         left: auto;
+    }
+    
+    /* Add indicators for mobile */
+    .simple-indicators {
+        display: flex;
+        justify-content: center;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        padding: 0.5rem 0;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .simple-indicator {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.3);
+        margin: 0 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .simple-indicator:after {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        border-radius: 50%;
+    }
+    
+    .simple-indicator.active {
+        background-color: #fecf6a; /* beOnd signature yellow/gold color */
+        transform: scale(1.3);
+        box-shadow: 0 0 8px #fecf6a; /* beOnd signature yellow/gold color */
     }
 }
 
