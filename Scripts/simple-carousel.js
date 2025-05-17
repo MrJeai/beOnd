@@ -8,6 +8,10 @@ let currentIndex = 0;
 let slideInterval;
 const slideDelay = 3000; // 3 seconds for slideshow
 let totalSimpleSlides = 0;
+let isTouchDevice = false;
+let isProcessingTouch = false;
+let touchStartTime = 0;
+let touchEndTime = 0;
 
 // Global moveSlide function for HTML onclick
 function moveSlide(direction) {
@@ -139,34 +143,50 @@ function resetAutoSlide() {
     startAutoSlide();
 }
 
+// Check if device supports touch events
+function detectTouchDevice() {
+    return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+}
+
 // Toggle overlay for mobile
-function toggleOverlay(slide) {
-    // For mobile devices, manually toggle overlay visibility
+function toggleOverlay(slide, forceShow = false) {
+    // For mobile and tablet devices, manually toggle overlay visibility
     if (window.innerWidth <= 768) {
         const overlay = slide.querySelector('.slide-overlay');
         const front = slide.querySelector('.slide-front');
         
-        // Remove active class from all slides first
+        if (!overlay || !front) return;
+        
+        // First, close all other slides
         document.querySelectorAll('.simple-slide').forEach(s => {
-            if (s !== slide) s.classList.remove('active');
+            if (s !== slide) {
+                s.classList.remove('active');
+                const otherOverlay = s.querySelector('.slide-overlay');
+                const otherFront = s.querySelector('.slide-front');
+                if (otherOverlay && otherFront) {
+                    otherOverlay.style.opacity = '0';
+                    otherOverlay.style.transform = 'translateY(100%)';
+                    otherFront.style.transform = '';
+                }
+            }
         });
         
-        if (overlay && front) {
-            if (slide.classList.contains('active')) {
-                // Hide overlay
-                slide.classList.remove('active');
-                overlay.style.opacity = '0';
-                overlay.style.transform = 'translateY(100%)';
-                front.style.transform = '';
-            } else {
-                // Show overlay
-                slide.classList.add('active');
-                overlay.style.opacity = '1';
-                overlay.style.transform = 'translateY(0)';
-                front.style.transform = 'scale(0.8)';
-            }
+        // Handle the current slide
+        if (forceShow || !slide.classList.contains('active')) {
+            // Show overlay
+            slide.classList.add('active');
+            overlay.style.opacity = '1';
+            overlay.style.transform = 'translateY(0)';
+            front.style.transform = 'scale(0.8)';
+        } else {
+            // Hide overlay
+            slide.classList.remove('active');
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'translateY(100%)';
+            front.style.transform = '';
         }
     }
+    // For desktop, do nothing - rely on CSS hover effects
 }
 
 // Initialize the carousel
@@ -213,45 +233,89 @@ function initSimpleCarousel() {
         updateSlidePosition(false);
     }, 100);
     
-    // Add touch/click events to slides for mobile overlay
+    // Check if this is a touch device
+    isTouchDevice = detectTouchDevice();
+    
+    // Add touch events to slides for mobile/tablet
     const allSlides = document.querySelectorAll('.simple-slide');
     allSlides.forEach(slide => {
         // For touch devices
         slide.addEventListener('touchstart', function(e) {
-            // Stop auto sliding when user interacts
+            // Store touch start time and position
+            touchStartTime = new Date().getTime();
+            this.touchStartX = e.changedTouches[0].screenX;
+            this.touchStartY = e.changedTouches[0].screenY;
+            this.isMoving = false; // Reset moving flag
+            // Stop auto sliding during interaction
             stopAutoSlide();
         }, { passive: true });
         
-        slide.addEventListener('touchend', function(e) {
-            // Toggle overlay class for mobile
-            toggleOverlay(this);
-            // Reset auto slide after interaction
-            resetAutoSlide();
+        slide.addEventListener('touchmove', function(e) {
+            // If significant movement, mark as not a tap
+            const touchMoveX = e.changedTouches[0].screenX;
+            const touchMoveY = e.changedTouches[0].screenY;
+            const diffX = Math.abs(this.touchStartX - touchMoveX);
+            const diffY = Math.abs(this.touchStartY - touchMoveY);
+            
+            if (diffX > 10 || diffY > 10) {
+                this.isMoving = true;
+            }
         }, { passive: true });
         
-        // For click events (mobile and desktop)
-        slide.addEventListener('click', function(e) {
-            // Toggle overlay class
-            toggleOverlay(this);
-            // Stop propagation to prevent carousel movement
-            e.stopPropagation();
+        slide.addEventListener('touchend', function(e) {
+            // Only process for mobile/tablet
+            if (window.innerWidth <= 768) {
+                // Calculate touch duration and distance
+                touchEndTime = new Date().getTime();
+                const touchDuration = touchEndTime - touchStartTime;
+                const touchEndX = e.changedTouches[0].screenX;
+                const touchEndY = e.changedTouches[0].screenY;
+                const diffX = Math.abs(this.touchStartX - touchEndX);
+                const diffY = Math.abs(this.touchStartY - touchEndY);
+                
+                // If it's a tap (short duration, minimal movement)
+                if (touchDuration < 300 && diffX < 20 && diffY < 20 && !this.isMoving) {
+                    // Toggle overlay
+                    toggleOverlay(this);
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }
+            
             // Reset auto slide
+            resetAutoSlide();
+        });
+        
+        // Click event for all devices - for desktop it will be used with hover effects
+        slide.addEventListener('click', function(e) {
+            // For mobile/tablet
+            if (window.innerWidth <= 768) {
+                toggleOverlay(this);
+                e.stopPropagation();
+            }
             resetAutoSlide();
         });
     });
     
-    // Swipe detection
+    // Swipe detection for mobile/tablet
     let touchStartX = 0;
+    
     simpleCarousel.addEventListener('touchstart', function(e) {
+        // Skip if we're touching a slide directly
+        if (e.target.closest('.simple-slide')) return;
+        
         touchStartX = e.changedTouches[0].screenX;
         stopAutoSlide();
     }, { passive: true });
     
     simpleCarousel.addEventListener('touchend', function(e) {
+        // Skip if we're touching a slide directly
+        if (e.target.closest('.simple-slide')) return;
+        
         const touchEndX = e.changedTouches[0].screenX;
         const diff = touchStartX - touchEndX;
         
-        // Only process swipe if it's not a tap (which should show overlay)
+        // Process swipe if it's significant movement
         if (Math.abs(diff) > 30) {
             if (diff > 0) {
                 moveSlide(1); // Swipe left = next
