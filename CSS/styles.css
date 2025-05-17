@@ -1695,100 +1695,130 @@ section:hover .section-subtitle strong {
 
 /* Team grid layout */
 .team-grid {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 3rem;
-    justify-items: center;
+    padding: 0 2rem;
+    justify-content: center;
 }
 
-/* Second row container for perfect centering */
-.second-row-container {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    width: 100%;
-}
+/* Removed second-row-container as all cards are now in one container */
 
 /* Desktop and large tablets in landscape */
 @media (min-width: 992px) {
     .team-grid {
-        grid-template-columns: repeat(5, 1fr);
+        justify-content: center;
     }
     
-    .second-row-container {
-        margin-top: 1rem;
+    /* All cards take up 20% width (5 per row) */
+    .team-grid > .team-card {
+        flex: 0 0 calc(20% - 1rem);
+        max-width: calc(20% - 1rem);
     }
+    
+    /* For grids with 5 or fewer cards, let them flow naturally */
+    .team-grid.few-cards {
+        justify-content: flex-start;
+    }
+    
+    /* For grids with more than 5 cards */
+    .team-grid.many-cards {
+        justify-content: flex-start;
+    }
+    
+    /* JavaScript will handle the centering of remaining cards */
 }
 
 /* iPad Pro and Air specific adjustments */
 @media (min-width: 768px) and (max-width: 1199px) {
     .team-grid {
-        grid-template-columns: repeat(5, 1fr);
         gap: 0.5rem;
-        padding: 0 2.5rem;
+        padding: 0 1.5rem;
+        justify-content: center;
     }
     
-    .second-row-container {
-        gap: 0.5rem;
-        margin-top: 0.5rem;
+    /* All cards take up 20% width (5 per row) */
+    .team-grid > .team-card {
+        flex: 0 0 calc(20% - 0.5rem);
+        max-width: calc(20% - 0.5rem);
     }
+    
+    /* For grids with 5 or fewer cards */
+    .team-grid.few-cards {
+        justify-content: flex-start;
+    }
+    
+    /* JavaScript will handle the centering of remaining cards */
     
     .team-card {
-        max-width: 140px;
-        height: 140px;
-        padding: 1rem 0 0.6rem;
+        max-width: 130px;
+        height: 130px;
+        padding: 0.8rem 0 0.5rem;
     }
     
     .team-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .team-glow {
         width: 90px;
         height: 90px;
     }
     
-    .team-glow {
-        width: 100px;
-        height: 100px;
-    }
-    
     .team-name {
-        font-size: 0.9rem;
-        margin-bottom: 0.3rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.2rem;
     }
     
     .team-overlay-title {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
     
     .team-overlay-desc {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
-    
-    .team-card:nth-child(1) { grid-area: card1; }
-    .team-card:nth-child(2) { grid-area: card2; }
-    .team-card:nth-child(3) { grid-area: card3; }
-    .team-card:nth-child(4) { grid-area: card4; }
-    .team-card:nth-child(5) { grid-area: card5; }
-    .team-card:nth-child(6) { grid-area: card6; }
-    .team-card:nth-child(7) { grid-area: card7; }
 }
 
 /* Tablets in portrait and smaller devices */
 @media (max-width: 991px) and (min-width: 576px) {
     .team-grid {
-        grid-template-columns: repeat(2, 1fr);
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        padding: 0 1.5rem;
+        gap: 1rem;
     }
+    
+    .team-grid > .team-card {
+        flex: 0 0 calc(33.33% - 1rem);
+        max-width: calc(33.33% - 1rem);
+        margin-bottom: 1rem;
+    }
+    
+    /* For grids with 3 or fewer cards */
+    .team-grid[data-card-count="1"],
+    .team-grid[data-card-count="2"],
+    .team-grid[data-card-count="3"] {
+        justify-content: flex-start;
+    }
+    
+    /* JavaScript will handle the centering of remaining cards */
 }
 
 /* Mobile portrait */
 @media (max-width: 575px) {
     .team-grid {
-        grid-template-columns: repeat(2, 1fr);
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0 1rem;
     }
     
-    .team-card {
+    .team-grid > .team-card {
+        flex: 0 0 calc(50% - 0.5rem);
+        max-width: calc(50% - 0.5rem);
         margin-bottom: 1rem;
     }
 }
@@ -1818,7 +1848,8 @@ section:hover .section-subtitle strong {
     justify-content: flex-start;
 }
 
-.team-card:hover {
+.team-card:hover,
+.team-card.active {
     transform: scale(1.1);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
     z-index: 10;
@@ -1848,7 +1879,8 @@ section:hover .section-subtitle strong {
     color: var(--logo-gray); /* Changed from white to logo gray */
 }
 
-.team-card:hover .team-name {
+.team-card:hover .team-name,
+.team-card.active .team-name {
     color: var(--primary);
 }
 
@@ -1867,7 +1899,8 @@ section:hover .section-subtitle strong {
     justify-content: center;
 }
 
-.team-card:hover .team-image {
+.team-card:hover .team-image,
+.team-card.active .team-image {
     border-color: var(--primary);
 }
 
@@ -1879,7 +1912,8 @@ section:hover .section-subtitle strong {
     border-radius: 50%;
 }
 
-.team-card:hover .team-image img {
+.team-card:hover .team-image img,
+.team-card.active .team-image img {
     transform: scale(1.05);
 }
 
@@ -1899,7 +1933,8 @@ section:hover .section-subtitle strong {
     aspect-ratio: 1/1;
 }
 
-.team-card:hover .team-glow {
+.team-card:hover .team-glow,
+.team-card.active .team-glow {
     border-color: var(--primary);
     box-shadow: 0 0 20px var(--primary), inset 0 0 10px var(--primary);
     animation: pulse-gold 2s infinite;
@@ -1941,14 +1976,10 @@ section:hover .section-subtitle strong {
                 0 0 8px rgba(254, 207, 106, 0.3);
 }
 
-.team-card:hover .team-overlay {
+.team-card:hover .team-overlay,
+.team-card.active .team-overlay {
     opacity: 1;
-    transform: translateY(0);
-    /* Enhanced golden glow on hover */
-    border: 2px solid rgba(254, 207, 106, 0.8);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 
-                0 0 15px rgba(254, 207, 106, 0.6),
-                0 0 25px rgba(254, 207, 106, 0.3);
+    transform: scale(1);
 }
 
 .team-overlay-title {
@@ -1961,7 +1992,8 @@ section:hover .section-subtitle strong {
     text-align: center;
 }
 
-.team-card:hover .team-overlay-title {
+.team-card:hover .team-overlay-title,
+.team-card.active .team-overlay-title {
     transform: translateY(0);
     opacity: 1;
 }
@@ -1977,7 +2009,8 @@ section:hover .section-subtitle strong {
     text-align: center;
 }
 
-.team-card:hover .team-overlay-desc {
+.team-card:hover .team-overlay-desc,
+.team-card.active .team-overlay-desc {
     transform: translateY(0);
     opacity: 1;
 }

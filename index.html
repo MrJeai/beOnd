@@ -395,8 +395,6 @@
             <p class="section-subtitle">All-in-one squad for Production, Marketing, Digital, and Social Media! With 15+ years of experience each, we just don't get things done, we bring your vision to life with flair and precision.</p>
             
             <div class="team-grid">
-                <!-- First row: Ajay, Vipin, Nehal, Venke, Anup -->
-                
                 <!-- Ajay Kurian (1) -->
                 <div class="team-card">
                     <div class="team-image-container">
@@ -482,42 +480,40 @@
                     </div>
                 </div>
                 
-                <!-- Second row centered: Santhosh, Soundarya -->
-                <div class="second-row-container">
-                    <!-- Santhosh (6) -->
-                    <div class="team-card">
-                        <div class="team-image-container">
-                            <div class="team-image">
-                                <img src="assets/TeamMembers/teams_santhosh.png" alt="Santhosh">
-                            </div>
-                            <div class="team-glow"></div>
+                <!-- Santhosh (6) -->
+                <div class="team-card">
+                    <div class="team-image-container">
+                        <div class="team-image">
+                            <img src="assets/TeamMembers/teams_santhosh.png" alt="Santhosh">
                         </div>
-                        <div class="team-info">
-                            <h3 class="team-name">Santhosh</h3>
-                        </div>
-                        <div class="team-overlay">
-                            <h3 class="team-overlay-title">Santhosh</h3>
-                            <p class="team-overlay-desc">Optimizer | Growth Hacker | Digital Enthusiast</p>
-                        </div>
+                        <div class="team-glow"></div>
                     </div>
-                    
-                    <!-- Soundarya (7) -->
-                    <div class="team-card">
-                        <div class="team-image-container">
-                            <div class="team-image">
-                                <img src="assets/TeamMembers/teams_soundarya.png" alt="Soundarya">
-                            </div>
-                            <div class="team-glow"></div>
-                        </div>
-                        <div class="team-info">
-                            <h3 class="team-name">Soundarya</h3>
-                        </div>
-                        <div class="team-overlay">
-                            <h3 class="team-overlay-title">Soundarya</h3>
-                            <p class="team-overlay-desc">SEO | Organic Gr<span class="highlight">O</span>wth | Specialist</p>
-                        </div>
+                    <div class="team-info">
+                        <h3 class="team-name">Santhosh</h3>
+                    </div>
+                    <div class="team-overlay">
+                        <h3 class="team-overlay-title">Santhosh</h3>
+                        <p class="team-overlay-desc">Optimizer | Growth Hacker | Digital Enthusiast</p>
                     </div>
                 </div>
+                
+                <!-- Soundarya (7) -->
+                <div class="team-card">
+                    <div class="team-image-container">
+                        <div class="team-image">
+                            <img src="assets/TeamMembers/teams_soundarya.png" alt="Soundarya">
+                        </div>
+                        <div class="team-glow"></div>
+                    </div>
+                    <div class="team-info">
+                        <h3 class="team-name">Soundarya</h3>
+                    </div>
+                    <div class="team-overlay">
+                        <h3 class="team-overlay-title">Soundarya</h3>
+                        <p class="team-overlay-desc">SEO | Organic Gr<span class="highlight">O</span>wth | Specialist</p>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </section>
@@ -681,6 +677,9 @@
                 
                 <button class="simple-prev" onclick="moveSlide(-1)">&#10094;</button>
                 <button class="simple-next" onclick="moveSlide(1)">&#10095;</button>
+                
+                <!-- Add indicators for mobile navigation -->
+                <div class="simple-indicators" id="simpleIndicators"></div>
             </div>
         </div>
     </section>
@@ -763,8 +762,9 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script src="Scripts/location-link.js"></script>
+    <!-- Scripts -->
+    <script src="Scripts/script.js"></script>
+    <script src="Scripts/simple-carousel.js"></script>
     <script src="Scripts/carousel.js"></script>
     <script src="Scripts/main.js"></script>
     <script src="Scripts/custom-cursor.js"></script>
