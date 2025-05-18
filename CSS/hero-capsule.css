@@ -17,10 +17,10 @@
 
 /* Video container styles - 21:9 aspect ratio with responsive positioning */
 .video-container {
-    position: absolute; /* Changed from absolute to relative for better mobile positioning */
+    position: absolute;
     width: 94%; /* 94% width */
     max-width: none; /* Remove max-width to allow full coverage */
-    margin-top: 3%; /* Small top margin for desktop */
+    top: 405px; /* Extremely increased gap below the header for desktop */
     margin-left: auto; /* Auto left margin for perfect centering */
     margin-right: auto; /* Auto right margin for perfect centering */
     border-radius: 25px; /* 25px border radius as requested */
@@ -253,7 +253,7 @@
 @media (max-width: 991px) {
     .hero {
         padding-top: 0;
-        min-height: 100vh;
+        min-height: 700px;
     }
     
     .video-container {
@@ -379,8 +379,24 @@
     }
 }
 
+/* Mobile portrait mode - specific height adjustment */
+@media (max-width: 767px) and (orientation: portrait) {
+    #home.hero.loaded {
+        height: 400px !important;
+        min-height: 400px !important;
+    }
+    
+    .video-container {
+        top: 200px; /* Even more dramatically increased gap for mobile screens */
+    }
+}
+
 /* Very small mobile screens */
 @media (max-width: 360px) {
+    .video-container {
+        top: 180px; /* Even more dramatically increased gap for very small screens */
+    }
+    
     .hero {
         min-height: 50vh; /* Further reduced height for very small screens */
     }
@@ -447,9 +463,16 @@
         padding-top: 0;
     }
     
+    #home.hero.loaded {
+        height: 600px !important; /* Adjusted height for iPad portrait mode */
+        min-height: 600px !important;
+    }
+    
     .video-container {
         width: 94%; /* 94% width */
-        margin: 6% auto 0; /* 6% top margin, auto left/right for perfect centering */
+        top: 300px; /* Adjusted gap for iPad portrait mode similar to mobile */
+        margin-left: auto; /* Auto left margin for perfect centering */
+        margin-right: auto; /* Auto right margin for perfect centering */
         padding-top: 40.29%; /* 42.86% of width * 0.94 to maintain aspect ratio */
         border-radius: 15px;
     }
@@ -462,6 +485,41 @@
     
     .typewriter-text {
         font-size: 1.7rem;
+    }
+}
+
+/* Mobile landscape mode - fix for video being cut off */
+@media (max-width: 896px) and (orientation: landscape) {
+    #home.hero.loaded {
+        position: relative;
+        top: 100px;
+        height: 450px !important;
+        min-height: 450px !important;
+        overflow: visible;
+    }
+    
+    .video-container {
+        position: absolute;
+        top: 100px;
+        width: 90%; /* Slightly reduced width */
+        padding-top: 38%; /* Slightly reduced height proportion */
+        margin-bottom: 0;
+    }
+    
+    .vertical-capsule {
+        min-height: 140px;
+        width: 100px;
+        padding: 10px 5px;
+        transform: translate(-50%, -50%) scale(0.7);
+    }
+    
+    .typewriter-text {
+        font-size: 1.2rem;
+    }
+    
+    .btn.hero-btn {
+        padding: 6px 14px;
+        font-size: 0.7rem;
     }
 }
 
