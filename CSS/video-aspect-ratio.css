@@ -1,0 +1,146 @@
+/* Video Aspect Ratio Fix
+   This file ensures the hero section video maintains a 21:9 aspect ratio across all screen sizes
+*/
+
+/* Base styles for video container - now inside hero-content */
+.video-container {
+    position: relative;
+    margin: 0 auto 30px auto; /* Removed top margin */
+    width: 95%;
+    /* Using aspect ratio 21:9 (42.86% = 9/21 * 100) */
+    padding-top: 40.72%; /* 42.86% of width * 0.95 to maintain aspect ratio with 95% width */
+    height: 0; /* Height is determined by padding-top */
+    overflow: hidden;
+    z-index: 0;
+    border-radius: 25px;
+    /* Add max-height to prevent it from being too tall on very wide screens */
+    max-height: 80vh;
+    /* Ensure perfect centering */
+    left: 0;
+    right: 0;
+    top: 10px; /* Position exactly 10px below the container hero-content */
+}
+
+/* Ensure the video container maintains aspect ratio but doesn't get too large */
+@media (min-width: 1200px) {
+    .video-container {
+        max-width: 1600px;
+        width: 90%;
+        padding-top: 38.57%; /* 42.86% of width * 0.9 */
+        margin: 0 auto 40px auto;
+        top: 10px;
+    }
+}
+
+/* For ultra-wide screens, limit the width further */
+@media (min-width: 2000px) {
+    .video-container {
+        width: 85%;
+        padding-top: 36.43%; /* 42.86% of width * 0.85 */
+        margin: 0 auto 50px auto;
+        top: 10px;
+    }
+}
+
+/* For tablets and smaller screens */
+@media (max-width: 991px) {
+    .video-container {
+        width: 90%;
+        padding-top: 38.57%; /* 42.86% of width * 0.9 */
+        max-height: 75vh;
+        margin: 0 auto 30px auto;
+        top: 10px;
+    }
+}
+
+/* For mobile devices */
+@media (max-width: 767px) {
+    .video-container {
+        width: 95%;
+        padding-top: 40.72%; /* 42.86% of width * 0.95 */
+        max-height: 70vh;
+        margin: 0 auto 20px auto;
+        top: 10px;
+    }
+}
+
+/* For iPad in portrait mode specifically */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+    .video-container {
+        width: 90%;
+        padding-top: 38.57%; /* 42.86% of width * 0.9 */
+        max-height: 60vh;
+        margin: 0 auto 25px auto;
+        top: 10px;
+    }
+}
+
+/* Background video styles to ensure it fills the container properly */
+.background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover ensures the video fills the container while maintaining aspect ratio */
+    z-index: 0;
+}
+
+/* Ensure the video overlay covers the entire container */
+.video-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Lighter overlay since we have text with its own background */
+    z-index: 1;
+    transition: all 0.5s cubic-bezier(0.42, 0, 0.58, 1);
+    border-radius: 15px; /* Match the video container's border radius */
+}
+
+/* Hover effect for the video overlay */
+.hero:hover .video-container::before {
+    background: rgba(0, 0, 0, 0.2); /* Even lighter on hover */
+}
+
+/* Position the hero section with appropriate spacing for different devices */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start; /* Changed from center to flex-start */
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    margin-top: 0; /* No space below header for mobile */
+    padding-top: 60px; /* Reduced padding for desktop */
+    background-color: var(--background); /* Ensure background color is consistent */
+}
+
+/* Responsive adjustments for hero section */
+@media (max-width: 991px) {
+    .hero {
+        padding-top: 30px; /* Less padding for tablets */
+    }
+}
+
+@media (max-width: 767px) {
+    .hero {
+        padding-top: 10px; /* Minimal padding for mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding-top: 0; /* No padding for small mobile */
+    }
+}
+
+/* Remove transform properties that were causing centering issues */
+.hero * {
+    backface-visibility: visible !important;
+    transform: none !important;
+    will-change: auto !important;
+    perspective: none !important;
+}

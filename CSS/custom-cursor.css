@@ -1,0 +1,138 @@
+/* Custom Cursor Styles for beOnd Website
+ * Incorporates the brand's gold accent color (#fecf6a) with elegant animations
+ */
+
+:root {
+  --cursor-outer: #fecf6a;
+  --cursor-inner: #fecf6a;
+  --cursor-trail: rgba(254, 207, 106, 0.3);
+}
+
+/* Hide default cursor when custom cursor is active (desktop only) */
+body {
+  cursor: none;
+}
+
+/* Show default cursor on mobile devices */
+@media (max-width: 767px) {
+  body {
+    cursor: auto;
+  }
+}
+
+/* Main cursor dot */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: var(--cursor-inner);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+  box-shadow: 0 0 10px 2px rgba(254, 207, 106, 0.5);
+  animation: pulse-glow 2s infinite alternate;
+  border: 2px solid #ffffff;
+}
+
+/* Cursor ring */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border: 3px solid var(--cursor-outer);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, border 0.3s, transform 0.15s ease-out;
+  box-shadow: 0 0 15px 3px rgba(254, 207, 106, 0.4);
+  animation: ring-glow 3s infinite alternate;
+}
+
+/* Cursor trail effect */
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background-color: var(--cursor-trail);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+/* Hide cursor elements on mobile */
+@media (max-width: 767px) {
+  .cursor-dot, .cursor-ring, .cursor-trail {
+    display: none;
+  }
+}
+
+/* Interactive elements cursor effects (desktop only) */
+a, button, input, textarea, select, .logo-container, .service-card, .team-card, .brand-logo, .delivery-card {
+  cursor: none;
+}
+
+/* Reset cursor for interactive elements on mobile */
+@media (max-width: 767px) {
+  a, button, input, textarea, select, .logo-container, .service-card, .team-card, .brand-logo, .delivery-card {
+    cursor: pointer;
+  }
+}
+
+/* Hover effect on interactive elements */
+a:hover ~ .cursor-ring,
+button:hover ~ .cursor-ring,
+input:hover ~ .cursor-ring,
+textarea:hover ~ .cursor-ring,
+select:hover ~ .cursor-ring,
+.logo-container:hover ~ .cursor-ring,
+.service-card:hover ~ .cursor-ring,
+.team-card:hover ~ .cursor-ring,
+.brand-logo:hover ~ .cursor-ring,
+.delivery-card:hover ~ .cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--cursor-outer);
+  background-color: rgba(254, 207, 106, 0.1);
+}
+
+/* Active state for clickable elements */
+a:active ~ .cursor-ring,
+button:active ~ .cursor-ring {
+  transform: translate(-50%, -50%) scale(0.8);
+  background-color: rgba(254, 207, 106, 0.2);
+}
+
+/* Text selection cursor */
+*::selection {
+  background-color: rgba(254, 207, 106, 0.3);
+  color: #ffffff;
+}
+
+/* Add glowing pulse animation for the cursor dot */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px 1px rgba(254, 207, 106, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 12px 3px rgba(254, 207, 106, 0.7);
+  }
+}
+
+/* Add glowing animation for the cursor ring */
+@keyframes ring-glow {
+  0% {
+    box-shadow: 0 0 10px 2px rgba(254, 207, 106, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 20px 5px rgba(254, 207, 106, 0.6);
+  }
+}

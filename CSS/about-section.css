@@ -1,0 +1,387 @@
+/* About columns styling with dark boxes and golden snake animation */
+.about-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Fixed 2x2 grid */
+    gap: 2rem;
+    margin: 2rem 0;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Base styling for all cards */
+.about-text-animated {
+    position: relative;
+    background: linear-gradient(135deg, #111, #222);
+    border-radius: 40px;
+    padding: 2.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Add golden border */
+    border: 1px solid rgba(254, 207, 106, 0.4);
+    /* Add subtle golden glow */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2),
+                0 0 8px rgba(254, 207, 106, 0.3);
+}
+
+.about-text-animated:hover {
+    transform: translateY(-10px);
+    /* Enhanced golden glow on hover to match service-overlay */
+    border: 2px solid rgba(254, 207, 106, 0.8);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 
+                0 0 15px rgba(254, 207, 106, 0.6),
+                0 0 25px rgba(254, 207, 106, 0.3);
+    z-index: 10;
+    animation: card-glow-pulse 3s infinite ease-in-out;
+}
+
+/* Card icons */
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fecf6a, #fdd169);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(254, 207, 106, 0.5));
+    transition: all 0.5s ease;
+}
+
+.about-text-animated:hover .card-icon {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 10px rgba(254, 207, 106, 0.8));
+}
+
+/* Card titles */
+.card-title {
+    font-family: var(--heading-font);
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    position: relative;
+    text-align: center;
+}
+
+.card-title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 50px;
+    height: 2px;
+    background-color: #fecf6a;
+    transition: transform 0.5s ease;
+}
+
+.about-text-animated:hover .card-title::after {
+    transform: translateX(-50%) scaleX(1);
+    box-shadow: 0 0 10px rgba(254, 207, 106, 0.6);
+}
+
+/* Unique card styles - make all cards have the same border radius style */
+/* Card Type 1 */
+.card-type-1 {
+    background: linear-gradient(135deg, #111, #1a1a1a);
+    border-radius: 20px 60px;
+    position: relative;
+}
+
+.card-type-1:hover {
+    background: linear-gradient(135deg, #111, #222);
+}
+
+/* Card Type 2 */
+.card-type-2 {
+    background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+    border-radius: 60px 20px;
+    position: relative;
+}
+
+.card-type-2:hover {
+    background: linear-gradient(135deg, #111, #222);
+}
+
+/* Card Type 3 */
+.card-type-3 {
+    background: linear-gradient(135deg, #0a0a0a, #171717);
+    border-radius: 20px 60px;
+    position: relative;
+}
+
+.card-type-3:hover {
+    background: linear-gradient(135deg, #111, #222);
+}
+
+/* Card Type 4 */
+.card-type-4 {
+    background: linear-gradient(135deg, #0f0f0f, #1d1d1d);
+    border-radius: 60px 20px;
+    position: relative;
+}
+
+.card-type-4:hover {
+    background: linear-gradient(135deg, #111, #222);
+}
+
+/* Remove the yellow circles I added */
+.card-type-1::before,
+.card-type-2::before,
+.card-type-3::before,
+.card-type-4::before {
+    display: none;
+}
+
+/* Add yellow dots to each card */
+.animate-text::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #fecf6a;
+    border-radius: 50%;
+    opacity: 0.7;
+    z-index: 1;
+    transition: all 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.25);
+}
+
+/* Position the dots in different corners for each card */
+.card-type-1 .animate-text::before {
+    top: -15px;
+    left: -15px;
+}
+
+.card-type-2 .animate-text::before {
+    top: -15px;
+    right: -15px;
+    left: auto;
+}
+
+.card-type-3 .animate-text::before {
+    bottom: -15px;
+    left: -15px;
+    top: auto;
+}
+
+.card-type-4 .animate-text::before {
+    bottom: -15px;
+    right: -15px;
+    top: auto;
+    left: auto;
+}
+
+/* Add extra padding to the bottom of the text in the last card */
+.card-type-4 .animate-text {
+    padding-bottom: 15px;
+}
+
+/* Enhance dots on hover */
+.about-text-animated:hover .animate-text::before {
+    transform: scale(2);
+    box-shadow: 0 0 20px #fecf6a, 0 0 40px #fecf6a;
+    opacity: 1;
+    animation: pulse-dot 2s infinite alternate;
+}
+
+@keyframes pulse-dot {
+    0% {
+        transform: scale(1.5);
+        box-shadow: 0 0 15px #fecf6a;
+    }
+    100% {
+        transform: scale(2);
+        box-shadow: 0 0 25px #fecf6a, 0 0 40px #fecf6a;
+    }
+}
+
+/* Add smooth sliding line animation to about boxes - clockwise direction only */
+.about-text-animated:hover::after {
+    display: none; /* We're not using this animation as requested earlier */
+}
+
+/* Sliding border animation for about boxes - clockwise direction only */
+@keyframes about-border-flow-clockwise {
+    /* Animation keyframes kept for reference but not used since we disabled the animation */
+    /* Top edge: left to right (0-25%) */
+    0% {
+        background: linear-gradient(90deg, rgba(254, 207, 106, 1), rgba(254, 207, 106, 0));
+        background-size: 15% 2px;
+        background-repeat: no-repeat;
+        background-position: 0% 0;
+    }
+    25% {
+        background: linear-gradient(90deg, rgba(254, 207, 106, 1), rgba(254, 207, 106, 0));
+        background-size: 15% 2px;
+        background-repeat: no-repeat;
+        background-position: 85% 0;
+    }
+    
+    /* Right edge: top to bottom (25-50%) */
+    25.01% {
+        background: linear-gradient(180deg, rgba(254, 207, 106, 1), rgba(254, 207, 106, 0));
+        background-size: 2px 15%;
+        background-repeat: no-repeat;
+        background-position: 100% 0%;
+    }
+    50% {
+        background: linear-gradient(180deg, rgba(254, 207, 106, 1), rgba(254, 207, 106, 0));
+        background-size: 2px 15%;
+        background-repeat: no-repeat;
+        background-position: 100% 85%;
+    }
+    
+    /* Bottom edge: right to left (50-75%) */
+    50.01% {
+        background: linear-gradient(270deg, rgba(254, 207, 106, 1), rgba(254, 207, 106, 0));
+        background-size: 15% 2px;
+        background-repeat: no-repeat;
+        background-position: 100% 100%;
+    }
+    75% {
+        background: linear-gradient(270deg, rgba(254, 207, 106, 1), rgba(254, 207, 106, 0));
+        background-size: 15% 2px;
+        background-repeat: no-repeat;
+        background-position: 15% 100%;
+    }
+    
+    /* Left edge: bottom to top (75-100%) */
+    75.01% {
+        background: linear-gradient(0deg, rgba(254, 207, 106, 1), rgba(254, 207, 106, 0));
+        background-size: 2px 15%;
+        background-repeat: no-repeat;
+        background-position: 0% 100%;
+    }
+    100% {
+        background: linear-gradient(0deg, rgba(254, 207, 106, 1), rgba(254, 207, 106, 0));
+        background-size: 2px 15%;
+        background-repeat: no-repeat;
+        background-position: 0% 15%;
+    }
+}
+
+.animate-text {
+    font-family: var(--main-font);
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: all 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.25);
+    line-height: 1.6;
+    text-align: center;
+    hyphens: auto;
+}
+
+/* Fix for commas to stay with preceding words */
+.no-break {
+    white-space: nowrap;
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: normal;
+}
+
+.about-text-animated:hover .no-break {
+    color: #ffffff;
+}
+
+.animate-text .highlight-text + span:not(.highlight-text) {
+    white-space: normal;
+}
+
+.animate-text span.highlight-text {
+    white-space: normal;
+}
+
+.animate-text span.highlight-text:after {
+    content: normal;
+    display: inline;
+    width: auto;
+}
+
+.about-text-animated:hover .animate-text {
+    transform: translateY(0);
+    color: #ffffff;
+    text-shadow: 0 3px 7px rgba(0, 0, 0, 0.5);
+    opacity: 1;
+}
+
+.animate-text strong,
+.animate-text .highlight-text {
+    color: #fecf6a;
+    font-weight: 600;
+    transition: all 0.8s cubic-bezier(0.17, 0.89, 0.32, 1.25);
+    position: relative;
+    display: inline-block;
+    transform-origin: center;
+}
+
+.about-text-animated:hover .animate-text .highlight-text {
+    text-shadow: 0 0 15px #fecf6a, 0 0 30px rgba(254, 207, 106, 0.3);
+    transform: scale(1.05);
+    animation: pulse-highlight 2s infinite alternate;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse-highlight {
+    0% {
+        text-shadow: 0 0 10px #fecf6a;
+    }
+    100% {
+        text-shadow: 0 0 20px #fecf6a, 0 0 30px rgba(254, 207, 106, 0.5);
+    }
+}
+
+@keyframes card-glow-pulse {
+    0% {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 
+                    0 0 15px rgba(254, 207, 106, 0.6),
+                    0 0 25px rgba(254, 207, 106, 0.3);
+    }
+    50% {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 
+                    0 0 20px rgba(254, 207, 106, 0.8),
+                    0 0 35px rgba(254, 207, 106, 0.5);
+    }
+    100% {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 
+                    0 0 15px rgba(254, 207, 106, 0.6),
+                    0 0 25px rgba(254, 207, 106, 0.3);
+    }
+}
+
+/* Responsive styles for about section */
+@media (max-width: 768px) {
+    .about-columns {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-text-animated {
+        padding: 1.5rem;
+    }
+    
+    .card-title {
+        font-size: 1.3rem;
+    }
+}

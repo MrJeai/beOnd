@@ -1,0 +1,529 @@
+/* Hero Section with Vertical Capsule
+   Complete redesign of the hero section with a vertical capsule in the center
+*/
+
+/* Hero section base styles */
+.hero {
+    position: relative;
+    padding-top: 0; /* Remove fixed padding */
+    background-color: var(--background);
+    overflow: hidden;
+    width: 100%;
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    align-items: flex-start; /* Align to top */
+    justify-content: center;
+}
+
+/* Video container styles - 21:9 aspect ratio with responsive positioning */
+.video-container {
+    position: absolute;
+    width: 94%; /* 94% width */
+    max-width: none; /* Remove max-width to allow full coverage */
+    top: 405px; /* Extremely increased gap below the header for desktop */
+    margin-left: auto; /* Auto left margin for perfect centering */
+    margin-right: auto; /* Auto right margin for perfect centering */
+    border-radius: 25px; /* 25px border radius as requested */
+    overflow: hidden;
+    /* Using aspect ratio 21:9 (42.86% = 9/21 * 100) */
+    padding-top: 40.29%; /* 42.86% of width * 0.94 to maintain aspect ratio */
+    height: 0; /* Height is determined by padding-top */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Background video with reduced opacity - covering full width */
+.background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7; /* Reduced opacity as requested */
+    border-radius: 25px; /* 25px border radius as requested */
+    /* Improve performance */
+    will-change: auto;
+    backface-visibility: visible;
+}
+
+/* Vertical capsule in the center of video - always in foreground with hover effects */
+.vertical-capsule {
+    position: absolute;
+    /* Fixed positioning in the center */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Using transform for perfect centering */
+    background-color: rgba(0, 0, 0, 0.4); /* Less opacity as requested */
+    backdrop-filter: blur(10px);
+    border-radius: 100px; /* Increased border radius to 100px as requested */
+    padding: clamp(20px, 5vw, 40px) clamp(15px, 4vw, 30px); /* Responsive padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(254, 207, 106, 0.3);
+    min-height: clamp(260px, 55vh, 380px); /* Reduced responsive height */
+    max-width: clamp(160px, 22vw, 200px); /* Further reduced responsive max-width */
+    width: 100%;
+    height: fit-content;
+    transition: all 0.3s ease;
+    z-index: 10; /* Ensure it's always in the foreground */
+}
+
+/* Additional ring close to the capsule with blurry glow */
+.vertical-capsule::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 0.5px solid rgba(254, 207, 106, 0.3);
+    border-radius: 102px; /* Very close to the capsule */
+    z-index: -1; /* Behind the capsule */
+    transition: all 0.3s ease;
+    pointer-events: none; /* Ensure it doesn't interfere with interactions */
+    filter: blur(1px); /* Increased blur for glowing effect */
+    box-shadow: 0 0 5px rgba(254, 207, 106, 0.2); /* Subtle glow */
+    animation: pulse-glow 3s infinite alternate; /* Pulsing glow animation */
+}
+
+/* Pulsing glow animation */
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 5px rgba(254, 207, 106, 0.2);
+        filter: blur(1px);
+    }
+    100% {
+        box-shadow: 0 0 8px rgba(254, 207, 106, 0.4);
+        filter: blur(1.5px);
+    }
+}
+
+/* Hover effect with glowing yellow rings - reduced zoom */
+.vertical-capsule:hover {
+    border: 1px solid #fecf6a; /* Yellow border on hover */
+    transform: translate(-50%, -52%); /* Reduced lift on hover */
+    box-shadow: 0 0 15px rgba(254, 207, 106, 0.4), /* Softer inner glow */
+                0 8px 25px rgba(0, 0, 0, 0.5); /* Slightly reduced shadow */
+}
+
+/* Additional ring animation on hover */
+.vertical-capsule:hover::after {
+    border: 1px solid rgba(254, 207, 106, 0.6); /* Brighter border on hover */
+    box-shadow: 0 0 12px rgba(254, 207, 106, 0.5); /* Enhanced glow effect */
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 104px; /* Very close to the capsule */
+    filter: blur(2px); /* More pronounced blur for glowing effect */
+    animation: pulse-glow-hover 1.5s infinite alternate; /* Faster pulsing on hover */
+}
+
+/* Pulsing glow animation on hover */
+@keyframes pulse-glow-hover {
+    0% {
+        box-shadow: 0 0 10px rgba(254, 207, 106, 0.4);
+        filter: blur(1.5px);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(254, 207, 106, 0.6);
+        filter: blur(2.5px);
+    }
+}
+
+/* Hero title styles - always in foreground and responsive with reduced gaps */
+.hero-title {
+    text-align: center;
+    margin-bottom: clamp(10px, 3vw, 25px); /* Reduced responsive margin */
+    position: relative;
+    z-index: 11; /* Higher than the capsule to ensure it's in foreground */
+    transform: scale(clamp(0.7, 0.8vw, 1)); /* Responsive scaling */
+}
+
+.typewriter-container {
+    margin-bottom: clamp(0px, 0.5vw, 3px); /* Significantly reduced margin between lines */
+    position: relative;
+}
+
+.typewriter-text {
+    font-size: clamp(1.6rem, 4vw, 2.8rem); /* Further increased responsive font size */
+    font-weight: 600;
+    color: var(--light);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow for better visibility */
+    line-height: clamp(1, 1vw, 1.3); /* Reduced line height for tighter text */
+}
+
+.highlight {
+    color: var(--primary);
+    position: relative;
+}
+
+/* Button styles - always in foreground with enhanced hover effects and responsive sizing */
+.btn.hero-btn {
+    background-color: var(--primary);
+    color: var(--secondary);
+    padding: clamp(8px, 2vw, 12px) clamp(16px, 3vw, 24px); /* Responsive padding */
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: clamp(10px, 3vw, 20px); /* Responsive margin */
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 12; /* Highest z-index to ensure it's always in foreground */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    font-size: clamp(0.8rem, 1.5vw, 1rem); /* Responsive font size */
+    transform: scale(clamp(0.8, 0.9vw, 1)); /* Slight scaling for smaller screens */
+}
+
+.btn.hero-btn::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--secondary);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.btn.hero-btn:hover {
+    transform: translateY(-8px); /* Enhanced jump animation */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+    background-color: #ffd87a; /* Slightly lighter on hover */
+}
+
+.btn.hero-btn:hover::after {
+    width: 70%; /* Underline appears on hover */
+}
+
+.btn.hero-btn:active {
+    transform: translateY(-2px); /* Press effect */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-bounce {
+    display: inline-block;
+    animation: bounce 2s infinite;
+    position: relative;
+    z-index: 13; /* Even higher z-index for the text */
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-5px);
+    }
+    60% {
+        transform: translateY(-3px);
+    }
+}
+
+/* Responsive styles with 6% top margin */
+@media (max-width: 1200px) {
+    .hero {
+        padding-top: 0;
+    }
+    
+    .video-container {
+        width: 94%; /* 94% width */
+        margin: 6% auto 0; /* 6% top margin, auto left/right for perfect centering */
+        padding-top: 40.29%; /* 42.86% of width * 0.94 to maintain aspect ratio */
+        border-radius: 15px;
+    }
+    
+    .vertical-capsule {
+        min-height: 380px;
+        width: 280px;
+        padding: 35px 25px;
+    }
+    
+    .typewriter-text {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .hero {
+        padding-top: 0;
+        min-height: 700px;
+    }
+    
+    .video-container {
+        width: 94%; /* 94% width */
+        margin: 6% auto 0; /* 6% top margin, auto left/right for perfect centering */
+        padding-top: 40.29%; /* 42.86% of width * 0.94 to maintain aspect ratio */
+        border-radius: 15px;
+    }
+    
+    .vertical-capsule {
+        min-height: 350px;
+        width: 260px;
+        padding: 30px 20px;
+    }
+    
+    .typewriter-text {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero {
+        padding-top: 0;
+        min-height: 100vh;
+    }
+    
+    .video-container {
+        width: 94%; /* 94% width */
+        margin: 0.5% auto 0; /* Drastically reduced top margin */
+        padding-top: 40.29%; /* 42.86% of width * 0.94 to maintain aspect ratio */
+        border-radius: 15px;
+    }
+    
+    .vertical-capsule {
+        /* Ensure it fits within the video container */
+        min-height: 260px;
+        max-height: 90%;
+        width: 180px;
+        padding: 20px 15px;
+        /* Scale down slightly for better fit */
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    
+    .hero-title {
+        margin-bottom: 10px;
+        transform: scale(0.85);
+    }
+    
+    .typewriter-text {
+        font-size: 1.4rem;
+        line-height: 1.2;
+    }
+    
+    .btn.hero-btn {
+        padding: 8px 18px;
+        margin-top: 10px;
+        transform: scale(0.9);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding-top: 0;
+        min-height: 60vh; /* Reduced height for mobile */
+    }
+    
+    .video-container {
+        position: relative;
+        width: 100%; /* Full width for mobile */
+        margin: 0; /* No margin at all */
+        padding-top: 42.86%; /* Standard 21:9 aspect ratio */
+        border-radius: 0; /* No border radius on mobile for full bleed */
+        top: 35%; /* Positioned at 25% from top as requested */
+    }
+    
+    .vertical-capsule {
+        /* Ensure it fits within the video container on small screens */
+        min-height: 160px;
+        max-height: 70%;
+        width: 110px; /* Further reduced max width */
+        max-width: 110px; /* Further reduced explicit max width */
+        padding: 10px 6px; /* Smaller padding */
+        /* Scale down more for better fit on small screens */
+        transform: translate(-50%, -50%) scale(0.65); /* Further reduced scale */
+        border-radius: 55px; /* Smaller border radius */
+    }
+    
+    .hero-title {
+        margin-bottom: 3px; /* Reduced bottom margin */
+        transform: scale(0.6); /* Further reduced scale */
+    }
+    
+    .typewriter-container {
+        margin-bottom: 0; /* No margin between lines */
+    }
+    
+    .typewriter-text {
+        font-size: 1.3rem; /* Further increased font size for mobile */
+        line-height: 1.1; /* Adjusted line height */
+        letter-spacing: -0.4px; /* Adjusted letter spacing */
+    }
+    
+    .btn.hero-btn {
+        padding: 4px 8px; /* Smaller padding */
+        font-size: 0.65rem; /* Smaller font size */
+        margin-top: 3px; /* Reduced top margin */
+        transform: scale(0.65); /* Further reduced scale */
+        border-radius: 25px; /* Smaller border radius */
+    }
+    
+    /* Make the ring closer on small screens */
+    .vertical-capsule::after {
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 57px;
+    }
+    
+    /* Reduced hover effect for mobile */
+    .vertical-capsule:hover {
+        transform: translate(-50%, -51%); /* Minimal lift on hover for mobile */
+    }
+}
+
+/* Mobile portrait mode - specific height adjustment */
+@media (max-width: 767px) and (orientation: portrait) {
+    #home.hero.loaded {
+        height: 400px !important;
+        min-height: 400px !important;
+    }
+    
+    .video-container {
+        top: 200px; /* Even more dramatically increased gap for mobile screens */
+    }
+}
+
+/* Very small mobile screens */
+@media (max-width: 360px) {
+    .video-container {
+        top: 180px; /* Even more dramatically increased gap for very small screens */
+    }
+    
+    .hero {
+        min-height: 50vh; /* Further reduced height for very small screens */
+    }
+    
+    .video-container {
+        width: 100%; /* Full width */
+        margin: 0; /* No margin */
+        padding-top: 42.86%; /* Standard 21:9 aspect ratio */
+        border-radius: 0; /* No border radius */
+        top: 25%; /* Positioned at 25% from top to match larger mobile screens */
+    }
+    
+    .vertical-capsule {
+        min-height: 140px;
+        max-height: 65%;
+        width: 90px;
+        max-width: 90px;
+        padding: 8px 5px;
+        transform: translate(-50%, -50%) scale(0.55);
+        border-radius: 45px;
+    }
+    
+    .hero-title {
+        margin-bottom: 2px;
+        transform: scale(0.5);
+    }
+    
+    .typewriter-container {
+        margin-bottom: 0; /* No margin between lines */
+        line-height: 0.8;
+    }
+    
+    .typewriter-text {
+        font-size: 1.15rem; /* Further increased font size for very small screens */
+        line-height: 1;
+        letter-spacing: -0.5px;
+    }
+    
+    .btn.hero-btn {
+        padding: 2px 6px;
+        font-size: 0.55rem;
+        margin-top: 2px;
+        transform: scale(0.55);
+        border-radius: 15px;
+    }
+    
+    .vertical-capsule::after {
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        border-radius: 46px;
+    }
+    
+    /* Minimal hover effect for very small screens */
+    .vertical-capsule:hover {
+        transform: translate(-50%, -50.5%); /* Almost no lift on hover */
+    }
+}
+
+/* iPad in portrait mode */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+    .hero {
+        padding-top: 0;
+    }
+    
+    #home.hero.loaded {
+        height: 600px !important; /* Adjusted height for iPad portrait mode */
+        min-height: 600px !important;
+    }
+    
+    .video-container {
+        width: 94%; /* 94% width */
+        top: 300px; /* Adjusted gap for iPad portrait mode similar to mobile */
+        margin-left: auto; /* Auto left margin for perfect centering */
+        margin-right: auto; /* Auto right margin for perfect centering */
+        padding-top: 40.29%; /* 42.86% of width * 0.94 to maintain aspect ratio */
+        border-radius: 15px;
+    }
+    
+    .vertical-capsule {
+        min-height: 340px;
+        width: 250px;
+        padding: 30px 20px;
+    }
+    
+    .typewriter-text {
+        font-size: 1.7rem;
+    }
+}
+
+/* Mobile landscape mode - fix for video being cut off */
+@media (max-width: 896px) and (orientation: landscape) {
+    #home.hero.loaded {
+        position: relative;
+        top: 100px;
+        height: 450px !important;
+        min-height: 450px !important;
+        overflow: visible;
+    }
+    
+    .video-container {
+        position: absolute;
+        top: 100px;
+        width: 90%; /* Slightly reduced width */
+        padding-top: 38%; /* Slightly reduced height proportion */
+        margin-bottom: 0;
+    }
+    
+    .vertical-capsule {
+        min-height: 140px;
+        width: 100px;
+        padding: 10px 5px;
+        transform: translate(-50%, -50%) scale(0.7);
+    }
+    
+    .typewriter-text {
+        font-size: 1.2rem;
+    }
+    
+    .btn.hero-btn {
+        padding: 6px 14px;
+        font-size: 0.7rem;
+    }
+}
+
+/* Performance optimizations */
+.video-container, .background-video, .vertical-capsule, .hero-title, .btn.hero-btn {
+    backface-visibility: hidden;
+}
