@@ -8,9 +8,16 @@
   --cursor-trail: rgba(254, 207, 106, 0.3);
 }
 
-/* Hide default cursor when custom cursor is active */
+/* Hide default cursor when custom cursor is active (desktop only) */
 body {
   cursor: none;
+}
+
+/* Show default cursor on mobile devices */
+@media (max-width: 767px) {
+  body {
+    cursor: auto;
+  }
 }
 
 /* Main cursor dot */
@@ -61,9 +68,23 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* Interactive elements cursor effects */
+/* Hide cursor elements on mobile */
+@media (max-width: 767px) {
+  .cursor-dot, .cursor-ring, .cursor-trail {
+    display: none;
+  }
+}
+
+/* Interactive elements cursor effects (desktop only) */
 a, button, input, textarea, select, .logo-container, .service-card, .team-card, .brand-logo, .delivery-card {
   cursor: none;
+}
+
+/* Reset cursor for interactive elements on mobile */
+@media (max-width: 767px) {
+  a, button, input, textarea, select, .logo-container, .service-card, .team-card, .brand-logo, .delivery-card {
+    cursor: pointer;
+  }
 }
 
 /* Hover effect on interactive elements */
