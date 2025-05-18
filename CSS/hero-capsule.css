@@ -17,13 +17,13 @@
 
 /* Video container styles - 21:9 aspect ratio with responsive positioning */
 .video-container {
-    position: relative; /* Changed from absolute to relative for better mobile positioning */
+    position: absolute; /* Changed from absolute to relative for better mobile positioning */
     width: 94%; /* 94% width */
     max-width: none; /* Remove max-width to allow full coverage */
-    margin-top: 1%; /* Small top margin for desktop */
+    margin-top: 3%; /* Small top margin for desktop */
     margin-left: auto; /* Auto left margin for perfect centering */
     margin-right: auto; /* Auto right margin for perfect centering */
-    border-radius: 15px; /* 15px border radius as requested */
+    border-radius: 25px; /* 25px border radius as requested */
     overflow: hidden;
     /* Using aspect ratio 21:9 (42.86% = 9/21 * 100) */
     padding-top: 40.29%; /* 42.86% of width * 0.94 to maintain aspect ratio */
@@ -40,7 +40,7 @@
     height: 100%;
     object-fit: cover;
     opacity: 0.7; /* Reduced opacity as requested */
-    border-radius: 15px; /* 15px border radius as requested */
+    border-radius: 25px; /* 25px border radius as requested */
     /* Improve performance */
     will-change: auto;
     backface-visibility: visible;
@@ -326,7 +326,7 @@
         margin: 0; /* No margin at all */
         padding-top: 42.86%; /* Standard 21:9 aspect ratio */
         border-radius: 0; /* No border radius on mobile for full bleed */
-        top: 25%; /* Positioned at 25% from top as requested */
+        top: 35%; /* Positioned at 25% from top as requested */
     }
     
     .vertical-capsule {
